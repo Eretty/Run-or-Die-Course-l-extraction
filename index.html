@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#141716">
+<title>RUN OR DIE — Project Zomboid</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#e9e9e1, #111513);
+  --surface: light-dark(#f7f7f1, #1a201d);
+  --surface-2: light-dark(#dedfd5, #242c27);
+  --text: light-dark(#202720, #f0f1e8);
+  --muted: light-dark(#5e685f, #a7b0a7);
+  --line: light-dark(#c7ccc1, #39443c);
+  --acid: #c5ef62;
+  --danger: #f06a52;
+  --amber: #f0b85d;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.app { min-height: 100vh; background: var(--bg); }
+a { color: inherit; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; max-width:1180px; margin:auto; padding:22px 28px; border-bottom:1px solid var(--line); }
+.brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.12em; font-size:.85rem; }
+.brand-mark { display:grid; place-items:center; width:32px; height:32px; background:var(--acid); color:#171b13; font-weight:1000; clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%); }
+.edition { color:var(--muted); font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; }
+.hero { max-width:1180px; margin:auto; padding:70px 28px 48px; display:grid; grid-template-columns:1.1fr .9fr; gap:38px; align-items:center; }
+.eyebrow { color:var(--danger); font-size:.75rem; font-weight:900; letter-spacing:.2em; text-transform:uppercase; display:flex; align-items:center; gap:10px; }
+.eyebrow:before { content:""; width:26px; height:2px; background:var(--danger); }
+h1 { font-size:clamp(3.8rem, 10vw, 7.7rem); line-height:.82; letter-spacing:-.09em; margin:24px 0; font-weight:1000; }
+h1 span { color:var(--acid); display:block; }
+.lede { font-size:clamp(1rem, 2vw, 1.2rem); line-height:1.7; max-width:620px; color:var(--muted); }
+.lede strong { color:var(--text); }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+.btn { appearance:none; border:1px solid var(--line); border-radius:4px; background:var(--surface); color:var(--text); padding:12px 17px; font-weight:800; font-size:.86rem; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:9px; }
+.btn.primary { background:var(--acid); color:#171b13; border-color:var(--acid); }
+.btn.steam { background:#202d3b; color:#f3f6f9; border-color:#536579; }
+.btn:hover { transform:translateY(-1px); }
+.poster { position:relative; min-height:410px; overflow:hidden; border:1px solid #4c574b; background:linear-gradient(145deg, #313c32 0%, #1a211d 55%, #111513 100%); padding:28px; display:flex; flex-direction:column; justify-content:space-between; isolation:isolate; }
+.poster:before { content:""; position:absolute; inset:0; opacity:.22; background-image:linear-gradient(0deg, transparent 95%, #9cac8b 96%),linear-gradient(90deg, transparent 95%, #9cac8b 96%); background-size:26px 26px; mask-image:linear-gradient(to bottom right, black, transparent 80%); z-index:-1; }
+.poster:after { content:""; position:absolute; width:300px; height:300px; right:-55px; top:65px; border:2px solid #a9bc8b; border-radius:50%; box-shadow:0 0 0 28px #a9bc8b0c,0 0 0 60px #a9bc8b0a; z-index:-1; }
+.poster-top { display:flex; justify-content:space-between; gap:12px; color:#c5d1bb; font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; }
+.silhouette { position:absolute; width:205px; height:260px; right:18%; top:80px; transform:rotate(-5deg); opacity:.95; }
+.poster-title { margin-top:auto; position:relative; }
+.poster-title strong { display:block; font-size:clamp(2rem,5vw,3.3rem); line-height:.9; letter-spacing:-.06em; text-transform:uppercase; }
+.poster-title span { display:block; margin-top:12px; color:var(--acid); font-size:.78rem; letter-spacing:.17em; font-weight:900; }
+.stamp { position:absolute; right:20px; bottom:120px; transform:rotate(8deg); color:#f06a52; border:2px solid #f06a52; padding:8px 12px; font-weight:1000; letter-spacing:.13em; font-size:.8rem; }
+.stats { max-width:1124px; margin:0 auto 64px; padding:0 28px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.stat { border:1px solid var(--line); background:var(--surface); padding:18px; }
+.stat .num { color:var(--acid); font-weight:1000; font-size:1.65rem; letter-spacing:-.05em; }
+.stat p { color:var(--muted); font-size:.82rem; margin:8px 0 0; line-height:1.5; }
+.section { max-width:1124px; margin:0 auto; padding:0 28px 64px; }
+.section-head { display:flex; justify-content:space-between; gap:20px; align-items:end; border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:24px; }
+.kicker { color:var(--danger); font-size:.72rem; font-weight:900; letter-spacing:.17em; text-transform:uppercase; }
+h2 { font-size:clamp(1.8rem,4vw,2.7rem); line-height:1; letter-spacing:-.06em; margin:8px 0 0; }
+.section-head p { color:var(--muted); max-width:390px; font-size:.9rem; line-height:1.5; margin:0; }
+.mission-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.mission-card { background:var(--surface); border:1px solid var(--line); padding:24px; min-height:210px; }
+.mission-card .step { color:var(--acid); font-size:.76rem; font-weight:900; letter-spacing:.15em; }
+.mission-card h3 { font-size:1.22rem; margin:20px 0 10px; letter-spacing:-.03em; }
+.mission-card p { color:var(--muted); font-size:.9rem; line-height:1.65; margin:0; }
+.settings { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+.setting { background:var(--surface); border:1px solid var(--line); padding:22px; }
+.setting h3 { display:flex; align-items:center; gap:10px; margin:0 0 17px; font-size:1.03rem; }
+.icon { display:grid; place-items:center; width:30px; height:30px; background:var(--surface-2); border-radius:3px; font-size:1rem; }
+.rows { display:grid; gap:0; }
+.setting-row { display:flex; justify-content:space-between; align-items:start; gap:14px; padding:10px 0; border-top:1px solid var(--line); font-size:.87rem; }
+.setting-row span:first-child { color:var(--muted); }
+.setting-row strong { text-align:right; }
+.tag { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); border-radius:3px; padding:5px 8px; font-size:.72rem; font-weight:800; }
+.tag:before { content:""; width:6px; height:6px; border-radius:50%; background:var(--acid); }
+.warning { margin-top:18px; padding:16px 18px; background:color-mix(in srgb, var(--amber) 10%, var(--surface)); border-left:3px solid var(--amber); font-size:.85rem; line-height:1.6; color:var(--muted); }
+.warning strong { color:var(--text); }
+.footer { border-top:1px solid var(--line); padding:28px; max-width:1124px; margin:auto; display:flex; justify-content:space-between; gap:20px; color:var(--muted); font-size:.75rem; letter-spacing:.04em; }
+@media(max-width:760px) { .hero { grid-template-columns:1fr; padding-top:45px; } .poster { min-height:330px; } .stats { grid-template-columns:repeat(2,1fr); } .mission-grid { grid-template-columns:1fr; } .settings { grid-template-columns:1fr; } .section-head { align-items:start; flex-direction:column; } .silhouette { right:12%; transform:scale(.82) rotate(-5deg); transform-origin:top right; } }
+@media(max-width:420px) { .topbar { padding:16px; } .hero,.section { padding-left:16px; padding-right:16px; } .stats { padding:0 16px; } .edition { font-size:.62rem; } .stat { padding:14px; } .poster { padding:20px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">R</span><span>RUN OR DIE</span></div>
+    <div class="edition">Project Zomboid · Build 42</div>
+  </header>
+  <main>
+    <section class="hero" id="top">
+      <div>
+        <div class="eyebrow">Protocole de survie · Kentucky</div>
+        <h1>RUN <span>OR DIE.</span></h1>
+        <p class="lede">Les rues appartiennent aux morts. Certains courent plus vite que toi, et les vivants sont parfois encore plus dangereux. <strong>Une batte, tes jambes, une radio militaire à trouver.</strong> Ton billet de sortie se trouve quelque part dans cet enfer.</p>
+        <div class="actions">
+          <a class="btn primary" href="#mission">Lire la mission <span aria-hidden="true">↓</span></a>
+          <a class="btn steam" href="https://steamcommunity.com/sharedfiles/" target="_blank" rel="noopener noreferrer">Ouvrir la collection Steam ↗</a>
+          <button class="btn" id="copyMission" type="button">Copier le briefing</button>
+        </div>
+      </div>
+      <div class="poster" role="img" aria-label="Affiche sombre de survie avec silhouette et signal d'urgence">
+        <div class="poster-top"><span>Emergency broadcast</span><span>Signal: unknown</span></div>
+        <svg class="silhouette" viewBox="0 0 220 280" aria-hidden="true">
+          <g fill="#090d0a" stroke="#090d0a" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M99 52 C76 54 67 75 72 96 L82 126 L66 159 L45 197 L57 204 L87 167 L108 132 L125 164 L141 216 L157 212 L144 158 L133 120 L139 88 C143 65 126 49 99 52Z"/>
+            <circle cx="106" cy="31" r="22"/>
+            <path d="M83 29 Q103 3 126 25 L130 41 L115 37 L99 44 L84 41Z"/>
+            <path d="M79 78 L46 104 L26 137 L37 145 L64 119 L91 101Z"/>
+            <path d="M129 78 L158 98 L179 128 L169 137 L145 112 L119 101Z"/>
+            <path d="M89 126 L72 171 L67 224 L81 227 L97 179 L113 146Z"/>
+            <path d="M117 131 L132 174 L161 230 L176 224 L155 166 L139 125Z"/>
+            <path d="M64 220 L58 247 L88 249 L91 240 L78 235 L81 224Z"/>
+            <path d="M159 224 L163 249 L194 250 L195 241 L178 236 L175 221Z"/>
+            <path d="M40 137 L24 160 L31 166 L50 147Z"/>
+            <path d="M25 158 L11 180" fill="none" stroke="#c5ef62" stroke-width="5"/>
+          </g>
+          <path d="M9 182 L31 146" stroke="#c5ef62" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+        <div class="stamp">NO RESPAWN</div>
+        <div class="poster-title"><strong>One chance.<br>One way out.</strong><span>FIND THE SIGNAL · REACH EXTRACTION</span></div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Résumé du preset">
+      <div class="stat"><div class="num">66 %</div><p>de sprinteurs parmi les zombies à vitesse aléatoire</p></div>
+      <div class="stat"><div class="num">0</div><p>réapparition de zombies activée dans les réglages</p></div>
+      <div class="stat"><div class="num">03 h</div><p>durée de l'événement d'extraction</p></div>
+      <div class="stat"><div class="num">21 mars</div><p>départ à 7 h, dans le calendrier du monde</p></div>
+    </section>
+
+    <section class="section" id="mission">
+      <div class="section-head"><div><div class="kicker">Ordres de mission</div><h2>Trois étapes. Aucune garantie.</h2></div><p>Le but n'est pas de nettoyer la ville. Il est de rester en mouvement assez longtemps pour sortir vivant.</p></div>
+      <div class="mission-grid">
+        <article class="mission-card"><div class="step">01 / SURVIVRE</div><h3>Garde tes distances</h3><p>La population est concentrée en ville. Les zombies sont fragiles, mais une majorité peut sprinter : un mauvais détour peut transformer une rue en piège.</p></article>
+        <article class="mission-card"><div class="step">02 / LOCALISER</div><h3>Trouve le signal</h3><p>Fouille et récupère l'équipement nécessaire à l'extraction. Le signal est actif dès le début ; aucun délai de préparation ni relais à construire n'est configuré.</p></article>
+        <article class="mission-card"><div class="step">03 / EXTRAIRE</div><h3>Tiens jusqu'au bout</h3><p>Rejoins la zone d'extraction choisie aléatoirement. L'événement dure trois heures en jeu : prépare ton itinéraire et garde une issue de secours.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="mods">
+      <div class="section-head"><div><div class="kicker">Contenu de la collection</div><h2>Les mods embarqués.</h2></div><p>Quatre mods pour transformer la fuite en véritable mission de survie : des menaces humaines, des outils de framework et une quête d'extraction.</p></div>
+      <div class="mission-grid">
+        <article class="mission-card"><div class="step">01 / MENACE HUMAINE</div><h3>[B42] Bandits NPC</h3><p>Les bandits sont une menace supplémentaire pendant l'apocalypse. Ce ne sont pas seulement les zombies qu'il faut craindre : reste vigilant face aux survivants hostiles.</p><p style="margin-top:14px"><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=">Voir sur le Workshop ↗</a></p></article>
+        <article class="mission-card"><div class="step">02 / FRAMEWORK</div><h3>ZombieBuddy</h3><p>Un framework qui permet aux mods Java avancés de fonctionner avec Project Zomboid. Il sert de dépendance technique à certains contenus de la collection.</p></article>
+        <article class="mission-card"><div class="step">03 / EXTRACTION</div><h3>Wolf Extraction Quest</h3><p>Le mod au cœur de l'objectif d'extraction : accomplis la quête et tente de rejoindre le point de sortie avant que la situation ne dégénère.</p></article>
+        <article class="mission-card"><div class="step">04 / IMMERSION</div><h3>Project Viewpoint</h3><p>Un mod complémentaire lié à la vue et à l'expérience de jeu. Consulte sa page Workshop pour les détails et les consignes de compatibilité Build 42.</p><p style="margin-top:14px"><a href="https://discord.gg/projectviewpoint">Communauté Project Viewpoint ↗</a></p></article>
+      </div>
+      <div class="warning"><strong>Compatibilité :</strong> vérifie les versions et dépendances indiquées sur les pages Workshop de chaque mod. Les liens directs vers les pages Workshop n'étant pas visibles dans la capture, ils ne sont pas tous renseignés ici.</div>
+    </section>
+    <section class="section" id="settings">
+      <div class="section-head"><div><div class="kicker">Fiche de configuration</div><h2>Le monde ne fera aucun cadeau.</h2></div><p>Résumé des paramètres lus dans le fichier fourni. Les réglages provenant de mods sont indiqués séparément.</p></div>
+      <div class="settings">
+        <article class="setting"><h3><span class="icon">☣</span> Les infectés</h3><div class="rows">
+          <div class="setting-row"><span>Répartition</span><strong>Concentrés en ville</strong></div>
+          <div class="setting-row"><span>Vitesse</span><strong>Aléatoire · 66 % sprinteurs</strong></div>
+          <div class="setting-row"><span>Force / résistance</span><strong>Faibles / fragiles</strong></div>
+          <div class="setting-row"><span>Activité</span><strong>Principalement le jour</strong></div>
+          <div class="setting-row"><span>Réapparition</span><strong>Désactivée</strong></div>
+          <div class="setting-row"><span>Transmission du virus</span><strong>Aucune</strong></div>
+        </div></article>
+        <article class="setting"><h3><span class="icon">▣</span> Équipement & ressources</h3><div class="rows">
+          <div class="setting-row"><span>Kit de départ</span><strong>Batte, marteau, sac, eau, chips</strong></div>
+          <div class="setting-row"><span>Armes classiques</span><strong>Rares</strong></div>
+          <div class="setting-row"><span>Munitions</span><strong>Très abondantes</strong></div>
+          <div class="setting-row"><span>Vêtements & conteneurs</span><strong>Abondants</strong></div>
+          <div class="setting-row"><span>Fatigue après effort</span><strong>Récupération très rapide</strong></div>
+          <div class="setting-row"><span>Durée d'une journée</span><strong>2 heures réelles en jeu</strong></div>
+        </div></article>
+        <article class="setting"><h3><span class="icon">⌁</span> Extraction militaire</h3><div class="rows">
+          <div class="setting-row"><span>Zone</span><strong>Aléatoire</strong></div>
+          <div class="setting-row"><span>Signal radio</span><strong>Actif dès le départ</strong></div>
+          <div class="setting-row"><span>Relais à construire</span><strong>Aucun</strong></div>
+          <div class="setting-row"><span>Équipement d'extraction au départ</span><strong>Non</strong></div>
+          <div class="setting-row"><span>Durée de l'événement</span><strong>3 heures en jeu</strong></div>
+          <div class="setting-row"><span>Date limite</span><strong>Aucune</strong></div>
+        </div></article>
+        <article class="setting"><h3><span class="icon">⚠</span> Les bandits</h3><div class="rows">
+          <div class="setting-row"><span>Présence</span><strong><span class="tag">Activée via les options du mod</span></strong></div>
+          <div class="setting-row"><span>Précision globale</span><strong>Moyenne (réglage 3/5)</strong></div>
+          <div class="setting-row"><span>Comportements hostiles</span><strong>Vol, sabotage, fenêtres</strong></div>
+          <div class="setting-row"><span>Furtivité nocturne</span><strong>Activée</strong></div>
+          <div class="setting-row"><span>Entrer dans les véhicules</span><strong>Désactivé</strong></div>
+          <div class="setting-row"><span>Multiplicateur d'apparition</span><strong>1,0×</strong></div>
+        </div></article>
+      </div>
+      <div class="warning"><strong>À noter :</strong> le fichier indique une vitesse de zombie aléatoire avec 66 % de sprinteurs, pas 100 % de zombies courants. Le kit de départ contient aussi un marteau, un sac à dos, de l'eau et des chips. La configuration fournie n'indique pas explicitement une radio militaire nommée comme objet garanti : l'équipement d'extraction n'est pas donné au départ.</div>
+    </section>
+  </main>
+  <footer class="footer"><span>RUN OR DIE · SURVIVAL PROTOCOL</span><span>Build 42 · Preset Sandbox</span></footer>
+</div>
+<script>
+const briefing = "RUN OR DIE — Project Zomboid\n\nLes rues appartiennent aux morts. Certains courent plus vite que toi, et les vivants sont parfois encore plus dangereux. Une batte, tes jambes, une radio militaire à trouver. Ton billet de sortie se trouve quelque part dans cet enfer.\n\nMISSION : survivre, trouver l'équipement nécessaire à l'extraction et rejoindre la zone avant la fin de l'événement. Méfie-toi des bandits qui rôdent en ville.\n\nAttention : vitesse des zombies aléatoire avec 66 % de sprinteurs ; le kit de départ contient aussi un marteau, un sac, de l'eau et des chips.";
+document.getElementById('copyMission').addEventListener('click', async () => {
+  const button = document.getElementById('copyMission');
+  try {
+    await navigator.clipboard.writeText(briefing);
+    button.textContent = 'Briefing copié ✓';
+  } catch (error) {
+    const area = document.createElement('textarea');
+    area.value = briefing;
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand('copy');
+    area.remove();
+    button.textContent = 'Briefing copié ✓';
+  }
+  window.setTimeout(() => { button.textContent = 'Copier le briefing'; }, 2200);
+});
+</script>
+</body>
+</html>
